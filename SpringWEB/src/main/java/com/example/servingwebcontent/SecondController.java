@@ -9,4 +9,8 @@ public class SecondController {
     public String Exit(){
         return "second/exit";
     }
+    @GetMapping("/test-page")
+    public String testPage(){
+        return "second/test-page";
+    }
 }
