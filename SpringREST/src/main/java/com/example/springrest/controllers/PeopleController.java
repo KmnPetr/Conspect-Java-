@@ -29,7 +29,7 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id")int id,Model model){
         //Получим 1 человека из ДАО на view
-        model.addAttribute("people",personDAO.show(id));
+        model.addAttribute("person",personDAO.show(id));
         return "people/show";
     }
 }
