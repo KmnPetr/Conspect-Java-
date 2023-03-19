@@ -1,12 +1,11 @@
 package com.example.springrest.controllers;
 
 import com.example.springrest.DAO.PersonDAO;
+import com.example.springrest.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/people")
@@ -31,5 +30,23 @@ public class PeopleController {
         //Получим 1 человека из ДАО на view
         model.addAttribute("person",personDAO.show(id));
         return "people/show";
+    }
+    /**
+     * метод возвращает форму html для заполнения полей данных нового человека
+     */
+    @GetMapping("/new")
+    public String newPerson(Model model){
+        model.addAttribute("person",new Person());
+        return "people/new";
+    }
+    /**
+     * модель принимает POST запрос с формы "people/new.html",
+     * берет из него данные и добавляет новый обьект в базу данных.
+     * А также делает редирект на страницу "/people".
+     */
+    @PostMapping()
+    public String create(@ModelAttribute("person")Person person){
+        personDAO.save(person);
+        return "redirect:/people";
     }
 }
