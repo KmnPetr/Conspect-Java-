@@ -33,4 +33,23 @@ public class PersonDAO {
         person.setId(++PEOPLE_COUNT);
         people.add(person);
     }
+
+    /**
+     * метод обновляет поле "name" в одном из обьектов списка "people"
+     * @param id обьекта чьи данные нужно обновить
+     * @param updatedPerson обьект из которого нужно взять новые данные для обьекта из списка
+     */
+    public void update(int id, Person updatedPerson) {
+        Person personToBeUpdated= show(id);
+        personToBeUpdated.setName(updatedPerson.getName());
+    }
+
+    /**
+     * метод удалит обьект из списка
+     * @param id обьекта на удаление
+     */
+    public void delete(int id) {
+        //removeIf удаляет обьект из списка если значение в параметре true
+        people.removeIf(p->p.getId()==id);
+    }
 }

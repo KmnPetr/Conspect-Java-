@@ -49,4 +49,38 @@ public class PeopleController {
         personDAO.save(person);
         return "redirect:/people";
     }
+
+    /**
+     * @param model
+     * @param id человека, чьи данные нужно изменить
+     * @return вернет html форму для обновления данных человека
+     */
+    @GetMapping("/{id}/edit")
+    public String edit(Model model,@PathVariable("id")int id){
+        model.addAttribute("person",personDAO.show(id));
+        return "people/edit";
+    }
+
+    /**
+     * метод принимает http запрос на обновление данных в БД
+     * @param person обьект с уже измененными данными
+     * @param id обьекта
+     * @return перенаправляет пользователя на страницу со списком обьектов с уже обновленными данными
+     */
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("person")Person person,@PathVariable("id")int id){
+        personDAO.update(id,person);
+        return "redirect:/people";
+    }
+
+    /**
+     * метод принимает запрос на удаление обьекта
+     * @param id обьекта на удаление
+     * @return перенаправляет пользователя на первую страницу со списком
+     */
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id")int id){
+        personDAO.delete(id);
+        return "redirect:/people";
+    }
 }
