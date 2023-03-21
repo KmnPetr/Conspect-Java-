@@ -13,17 +13,17 @@
     <label for="name">Enter name: </label><!--просто лэйбл поля-->
     <input type="text" th:field="*{name}" id="name"/><!--настройка вводимого поля-->
     <!--    сообщение проверки на валидность-->
-    <div style="color: red" th:if="${fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
     <br/>
     <!--    поле заполнения возраста-->
     <label for="age">Enter age: </label>
     <input type="text" th:field="*{age}" id="age"/>
-    <div style="color: red" th:if="${fields.hasErrors('age')}" th:errors="*{age}">Age error</div>
+    <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age error</div>
     <br/>
     <!--    поле заполнения email-->
     <label for="email">Enter email: </label>
     <input type="text" th:field="*{email}" id="email"/>
-    <div style="color: red" th:if="${fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+    <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
     <br/>
     <input type="submit" value="Update!"/>
 </form>
