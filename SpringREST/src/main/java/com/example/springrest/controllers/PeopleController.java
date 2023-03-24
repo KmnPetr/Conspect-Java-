@@ -48,10 +48,10 @@ public class PeopleController {
      * А также делает редирект на страницу "/people".
      */
     @PostMapping()
-    public String create(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult){
-        if (bindingResult.hasErrors()){
+    public String create(@ModelAttribute("person") /*@Valid*/ Person person, BindingResult bindingResult){
+       /* if (bindingResult.hasErrors()){
             return "people/new"; //если поступивший обьект имеет невалидные поля,то возвращаем пользователю форму заново переписывать
-        }
+        }*/
         personDAO.save(person);
         return "redirect:/people";
     }
