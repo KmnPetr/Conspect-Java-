@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class PersonDAO {
+public class PersonDAO implements DAO {
     private static int PEOPLE_COUNT=0;
 
     //эти данные должны лежать в проперти файле
@@ -32,7 +32,7 @@ public class PersonDAO {
         }
     }
 
-
+    @Override
     public List<Person> index(){
         //сюда выгружаем данные
         List<Person> people=new ArrayList<>();
@@ -56,6 +56,7 @@ public class PersonDAO {
         }
         return people;
     }
+    @Override
     public Person show(int id){
         Person person=null;
         try {
@@ -83,6 +84,7 @@ public class PersonDAO {
      * добавляем в базу новый обьект
      * @param person
      */
+    @Override
     public void save(Person person) {
         try {/*
             //старый небезопасный, небыстрый способ, есть возможность для sql иньекций//test@test@mail.com');DROP TABLE Person;-- запрос в поле емаил который убивает таблицу
@@ -109,6 +111,7 @@ public class PersonDAO {
      * @param id обьекта чьи данные нужно обновить
      * @param upPerson обьект из которого нужно взять новые данные для обьекта из списка
      */
+    @Override
     public void update(int id, Person upPerson) {
         try {
             PreparedStatement preparedStatement=connection.prepareStatement("UPDATE Person SET name=?,age=?,email=? WHERE id=?");
@@ -130,6 +133,7 @@ public class PersonDAO {
      * метод удалит обьект из списка
      * @param id обьекта на удаление
      */
+    @Override
     public void delete(int id) {
         try {
             PreparedStatement preparedStatement=connection.prepareStatement("DELETE FROM Person WHERE id=?");
@@ -140,6 +144,5 @@ public class PersonDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

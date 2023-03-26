@@ -2,7 +2,6 @@ package com.example.springrest.controllers;
 
 import com.example.springrest.DAO.DAO_with_Template;
 import com.example.springrest.model.Person;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,7 +73,7 @@ public class PeopleController {
      * @return перенаправляет пользователя на страницу со списком обьектов с уже обновленными данными
      */
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("person") @Valid Person person,
+    public String update(@ModelAttribute("person")Person person,
                          BindingResult bindingResult,
                          @PathVariable("id")int id){
         if (bindingResult.hasErrors())
