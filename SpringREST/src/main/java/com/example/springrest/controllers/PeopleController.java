@@ -2,13 +2,15 @@ package com.example.springrest.controllers;
 
 import com.example.springrest.DAO.DAO_with_Template;
 import com.example.springrest.model.Person;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-
+//небольшая зависимость "thymeleaf-layout-dialect" оживила валидацию
+//также в видео употребляются зависимости "thymeleaf-spring5" и "hibernate-validator", но я их не использовал
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
@@ -47,10 +49,10 @@ public class PeopleController {
      * А также делает редирект на страницу "/people".
      */
     @PostMapping()
-    public String create(@ModelAttribute("person") /*@Valid*/ Person person, BindingResult bindingResult){
-       /* if (bindingResult.hasErrors()){
+    public String create(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
             return "people/new"; //если поступивший обьект имеет невалидные поля,то возвращаем пользователю форму заново переписывать
-        }*/
+        }
         DAO.save(person);
         return "redirect:/people";
     }
@@ -73,7 +75,7 @@ public class PeopleController {
      * @return перенаправляет пользователя на страницу со списком обьектов с уже обновленными данными
      */
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("person")Person person,
+    public String update(@ModelAttribute("person")@Valid Person person,
                          BindingResult bindingResult,
                          @PathVariable("id")int id){
         if (bindingResult.hasErrors())
