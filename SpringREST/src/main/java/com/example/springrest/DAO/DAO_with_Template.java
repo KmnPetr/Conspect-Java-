@@ -3,12 +3,15 @@ package com.example.springrest.DAO;
 import com.example.springrest.model.Person;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -88,6 +91,69 @@ public class DAO_with_Template extends JdbcDaoSupport implements DAO{
     @Override
     public void delete(int id) {
         getJdbcTemplate().update("DELETE FROM Person WHERE id=?",id);
+    }
+
+
+
+    //////////////////////////////////////////////////////////
+    ////////////// тестируем BatchUpdate /////////////////////
+    //////////////////////////////////////////////////////////
+
+    /**
+     * метод делает запрос на insert 1000 полей в БД каждый запрос по отдельности
+     */
+    public void testMultipleUpdate() {
+        List<Person> people=create1000People();
+        long before=System.currentTimeMillis();
+
+        for(Person person:people){
+            getJdbcTemplate().update("INSERT INTO Person VALUES (?,?,?,?)",
+                    person.getId(),
+                    person.getName(),
+                    person.getAge(),
+                    person.getEmail());
+        }
+
+        long after=System.currentTimeMillis();
+        System.out.println(after-before);//замер времени
+    }
+
+    /**
+     * метод делает запрос на insert 1000 полей в БД способом BatchUpdate
+     */
+    public void testBatchUpdate() {
+        List<Person>people=create1000People();
+        long before=System.currentTimeMillis();
+
+        //далее метод batchUpdate создает пакет с 1000 запросами и отправляет в БД
+        getJdbcTemplate().batchUpdate("INSERT INTO Person VALUES (?,?,?,?)",
+                new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                ps.setInt(1,people.get(i).getId());
+                ps.setString(2,people.get(i).getName());
+                ps.setInt(3,people.get(i).getAge());
+                ps.setString(4,people.get(i).getEmail());
+            }
+            @Override
+            public int getBatchSize() {
+                return people.size();
+            }
+        });
+
+        long after=System.currentTimeMillis();
+        System.out.println(after-before);//замер времени
+    }
+
+    /**
+     * @return возвращает массив с 1000 Person
+     */
+    private List<Person> create1000People() {
+        List<Person>people=new ArrayList<>();
+        for (int i = 1000; i < 2000; i++) {
+            people.add(new Person(i,"Person"+i,30,"Person"+i+"@gmail.com"));
+        }
+        return people;
     }
 }
 

@@ -1,9 +1,11 @@
 package com.example.springrest.controllers;
 
+import com.example.springrest.DAO.DAO;
 import com.example.springrest.DAO.DAO_with_Template;
 import com.example.springrest.model.Person;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,12 +17,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/people")
 public class PeopleController {
 
-    private final DAO_with_Template DAO;
+    private final DAO DAO;
 
     @Autowired
-    public PeopleController(DAO_with_Template DAO) {
-        this.DAO = DAO;
-    }
+    public PeopleController(@Qualifier("DAO_with_Template")DAO DAO) {this.DAO = DAO;}
 
     @GetMapping()
     public String index(Model model){
