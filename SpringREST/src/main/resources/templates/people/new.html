@@ -1,30 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>New person</title>
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/people}" th:object="${person}"><!--    метод отмравки http, адрес отправки, новый обьект с частично зап.полями-->
-    <!--    поле заполнения имени-->
-    <label for="name">Enter name: </label><!--просто лэйбл поля-->
-    <input type="text" th:field="*{name}" id="name"/><!--настройка вводимого поля-->
-<!--    сообщение проверки на валидность-->
-    <div th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}">Name error</div>
+<form th:method="POST" th:action="@{/people}" th:object="${person}">
+    <label for="name">Enter name: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</div>
     <br/>
-<!--    поле заполнения возраста-->
     <label for="age">Enter age: </label>
     <input type="text" th:field="*{age}" id="age"/>
-    <div th:if="${#fields.hasErrors('age')}" class="text-danger" th:errors="*{age}">Age error</div>
+    <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Age Error</div>
     <br/>
-<!--    поле заполнения email-->
     <label for="email">Enter email: </label>
     <input type="text" th:field="*{email}" id="email"/>
-    <div th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}">Email error</div>
+    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
     <br/>
-
-    <input type="submit" value="Create!"/><!--кнопка-->
+    <input type="submit" value="Create!"/>
 </form>
 
 </body>
