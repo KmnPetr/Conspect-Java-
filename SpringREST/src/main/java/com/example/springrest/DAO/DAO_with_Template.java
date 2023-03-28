@@ -63,7 +63,7 @@ public class DAO_with_Template extends JdbcDaoSupport implements DAO{
      */
     @Override
     public void save(Person person) {
-        getJdbcTemplate().update("INSERT INTO Person VALUES(1,?,?,?)",
+        getJdbcTemplate().update("INSERT INTO Person(name,age,email) VALUES(?,?,?)",
                 person.getName(),
                 person.getAge(),
                 person.getEmail());
@@ -107,8 +107,7 @@ public class DAO_with_Template extends JdbcDaoSupport implements DAO{
         long before=System.currentTimeMillis();
 
         for(Person person:people){
-            getJdbcTemplate().update("INSERT INTO Person VALUES (?,?,?,?)",
-                    person.getId(),
+            getJdbcTemplate().update("INSERT INTO Person(name,age,email) VALUES (?,?,?)",
                     person.getName(),
                     person.getAge(),
                     person.getEmail());
@@ -126,14 +125,13 @@ public class DAO_with_Template extends JdbcDaoSupport implements DAO{
         long before=System.currentTimeMillis();
 
         //далее метод batchUpdate создает пакет с 1000 запросами и отправляет в БД
-        getJdbcTemplate().batchUpdate("INSERT INTO Person VALUES (?,?,?,?)",
+        getJdbcTemplate().batchUpdate("INSERT INTO Person(name,age,email) VALUES (?,?,?)",
                 new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                ps.setInt(1,people.get(i).getId());
-                ps.setString(2,people.get(i).getName());
-                ps.setInt(3,people.get(i).getAge());
-                ps.setString(4,people.get(i).getEmail());
+                ps.setString(1,people.get(i).getName());
+                ps.setInt(2,people.get(i).getAge());
+                ps.setString(3,people.get(i).getEmail());
             }
             @Override
             public int getBatchSize() {
@@ -151,7 +149,7 @@ public class DAO_with_Template extends JdbcDaoSupport implements DAO{
     private List<Person> create1000People() {
         List<Person>people=new ArrayList<>();
         for (int i = 1000; i < 2000; i++) {
-            people.add(new Person(i,"Person"+i,30,"Person"+i+"@gmail.com"));
+            people.add(new Person("Person"+i,30,"Person"+i+"@gmail.com"));
         }
         return people;
     }

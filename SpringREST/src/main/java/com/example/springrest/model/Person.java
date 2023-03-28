@@ -19,8 +19,7 @@ public class Person {
 
     public Person() {}
 
-    public Person(int id, String name, int age, String email) {
-        this.id = id;
+    public Person(String name, int age, String email) {
         this.name = name;
         this.age = age;
         this.email = email;

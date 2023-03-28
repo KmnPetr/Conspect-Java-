@@ -94,7 +94,7 @@ public class PersonDAO implements DAO {
             //запрос на изменение в БД
             statement.executeUpdate(SQL);*/
             //PreparedStatement лучше быстрее безопаснее
-            PreparedStatement preparedStatement=connection.prepareStatement("INSERT INTO Person VALUES(1,?,?,?)");
+            PreparedStatement preparedStatement=connection.prepareStatement("INSERT INTO Person(name,age,email) VALUES(?,?,?)");
 
             preparedStatement.setString(1,person.getName());
             preparedStatement.setInt(2,person.getAge());
