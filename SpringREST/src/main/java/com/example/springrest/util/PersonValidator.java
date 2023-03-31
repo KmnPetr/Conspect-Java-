@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+/**
+ * здесь содержатся проверки валидации требующии запроса в БД
+ */
 @Component
 public class PersonValidator implements Validator {
 
@@ -24,12 +27,15 @@ public class PersonValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Person person=(Person) target;
 
-        //посмотреть есть ли человек с таким же email в БД
+        //проверить уникальность email в БД
         if(dao.show(person.getEmail()).isPresent()/*метод из Optional*/){
-            errors.reject("email"/*на каком поле*/,
-                    new String[]{"This email is already taken"},
+            errors.rejectValue("email"/*на каком поле*/,
+                    "",
                     "This email is already taken"/*сообщение*/);
         }
 
+        //вторая проверка
+        //Проверяем, что у человека имя начинается с литеры
+        if (false){/*тут мог бы быть код, но эта фигня не требует обращения к БД*/}
     }
 }
