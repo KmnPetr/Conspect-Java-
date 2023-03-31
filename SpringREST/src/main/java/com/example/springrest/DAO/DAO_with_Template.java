@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * для работы JdbcTemplate в файле application.properties добавляем строки
@@ -55,6 +56,18 @@ public class DAO_with_Template extends JdbcDaoSupport implements DAO{
         //здесь по умолчанию всегда используется PreparedStatement,поэтому он ждет что мы вместо "?" подставим значение
         //лямбду использовали чтобы возвращался один обьект а не список
         //в реал.прил. лучше вернуть не null, а new Error("человек с таким id не найден")
+    }
+
+    /**
+     * этот метод используется для валидации при проверке на уникальность email создаваемого нового Person
+     * @param email
+     * @return
+     */
+    public Optional<Person> show(String email){
+        return getJdbcTemplate().query("SELECT*FROM Person WHERE email=?",
+                new Object[]{email},
+                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+        //можно было добавить .orElse(null) но мы использовали Optional<Person> эта обертка может не содержать обьекта
     }
 
     /**

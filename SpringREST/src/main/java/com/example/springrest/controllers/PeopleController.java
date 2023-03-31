@@ -1,8 +1,8 @@
 package com.example.springrest.controllers;
 
 import com.example.springrest.DAO.DAO;
-import com.example.springrest.DAO.DAO_with_Template;
 import com.example.springrest.model.Person;
+import com.example.springrest.util.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,9 +18,13 @@ import org.springframework.web.bind.annotation.*;
 public class PeopleController {
 
     private final DAO DAO;
+    private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(@Qualifier("DAO_with_Template")DAO DAO) {this.DAO = DAO;}
+    public PeopleController(@Qualifier("DAO_with_Template")DAO DAO, PersonValidator personValidator) {
+        this.DAO = DAO;
+        this.personValidator = personValidator;
+    }
 
     @GetMapping()
     public String index(Model model){
@@ -50,6 +54,7 @@ public class PeopleController {
      */
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult){
+        personValidator.validate(person,bindingResult);
         if (bindingResult.hasErrors()){
             return "people/new"; //если поступивший обьект имеет невалидные поля,то возвращаем пользователю форму заново переписывать
         }
@@ -78,6 +83,7 @@ public class PeopleController {
     public String update(@ModelAttribute("person")@Valid Person person,
                          BindingResult bindingResult,
                          @PathVariable("id")int id){
+        personValidator.validate(person,bindingResult);
         if (bindingResult.hasErrors())
             return "people/edit";
         DAO.update(id,person);
