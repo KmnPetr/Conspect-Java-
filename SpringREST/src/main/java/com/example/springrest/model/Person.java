@@ -5,14 +5,18 @@ import jakarta.validation.constraints.*;
 
 public class Person {
     private int id;
+
     @NotEmpty(message = "Name should not empty")
     @Size(min = 2,max = 30,message = "Name should be betveen 2 and 30 characters")
     private String name;
+
     @Min(value = 1,message = "Age should be greated than 1")
     private int age;
+
     @NotEmpty(message = "Email should not empty")
     @Email(message = "Email should be valid")
     private String email;
+
     @NotEmpty(message = "Address should not empty")
     @Pattern(regexp = "[A-Z]\\w+, [A-Z]\\w+, \\d{6}",message = "You address should be this format: Country, City, Postal code(6 digits)")//Страна, Город, Индекс(6 цифр)
     private String address;

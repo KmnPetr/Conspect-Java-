@@ -5,11 +5,13 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +110,23 @@ public class DAO_with_Template extends JdbcDaoSupport implements DAO{
         getJdbcTemplate().update("DELETE FROM Person WHERE id=?",id);
     }
 
+    /**
+     * метод изменяет имя человека, выбранного админом со страницы /admin
+     * @param person
+     */
+    @Override
+    public void addAdmin(Person person) {
+        final String[] name = new String[1];
+        getJdbcTemplate().query("SELECT name FROM Person WHERE id=?",new Object[]{person.getId()}, new RowMapper<String>() {
+            @Override
+            public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+                name[0] =rs.getString("name");;
+                return null;
+            }
+        });
+        name[0] +=" hi is admin";
+        getJdbcTemplate().update("UPDATE Person SET name=? WHERE id=?", name[0],person.getId());
+    }
 
 
     //////////////////////////////////////////////////////////

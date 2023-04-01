@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Назначить администратора:</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/admin/add}">
+
+    <label for="person">Выберите человека:</label>
+<select th:object="${person}" th:field="*{id}" id="person">
+<!--    на сервер отправится значение value-->
+
+<option th:each="person : ${people}" th:value="${person.getId()}"
+
+        th:text="${person.getName()}"></option>
+</select>
+    <input type="submit" value="назначить админом"/>
+</form>
+
+</body>
+</html>

@@ -10,4 +10,5 @@ public interface DAO {
     public void save(Person person);
     public void update(int id, Person upPerson);
     public void delete(int id);
+    void addAdmin(Person person);
 }

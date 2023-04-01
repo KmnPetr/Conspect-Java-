@@ -28,7 +28,7 @@ public class PersonValidator implements Validator {
         Person person=(Person) target;
 
         //проверить уникальность email в БД
-        if(dao.show(person.getEmail()).isPresent()/*метод из Optional*/){
+        if(checkIsUpdatePerson((Person) target)&&dao.show(person.getEmail()).isPresent()/*метод из Optional*/){
             errors.rejectValue("email"/*на каком поле*/,
                     "",
                     "This email is already taken"/*сообщение*/);
@@ -37,5 +37,19 @@ public class PersonValidator implements Validator {
         //вторая проверка
         //Проверяем, что у человека имя начинается с литеры
         if (false){/*тут мог бы быть код, но эта фигня не требует обращения к БД*/}
+    }
+
+    /**
+     * метод блокирует валидацию уникальности email если этот email принадлежит обновляемому обьекту
+     * @param person
+     * @return
+     */
+    private Boolean checkIsUpdatePerson(Person person){
+        Person daoPerson=dao.show(person.getEmail()).stream().findAny().orElse(null);
+        Boolean ret=true;
+        if (daoPerson!=null) {
+            if (daoPerson.getId()== person.getId())ret=false;
+        };
+        return ret;
     }
 }
