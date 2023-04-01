@@ -1,4 +1,4 @@
-package com.example.springrest.DAO;
+/*package com.example.springrest.DAO;
 
 import com.example.springrest.model.Person;
 import org.springframework.stereotype.Component;
@@ -7,6 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+*//**
+ * этот ДАО больше не применим к основному проекту изза устаревания большого количества методов
+ *//*
 @Component
 public class PersonDAO implements DAO {
     private static int PEOPLE_COUNT=0;
@@ -80,19 +83,19 @@ public class PersonDAO implements DAO {
         return  person;
     }
 
-    /**
+    *//**
      * добавляем в базу новый обьект
      * @param person
-     */
+     *//*
     @Override
     public void save(Person person) {
-        try {/*
+        try {*//*
             //старый небезопасный, небыстрый способ, есть возможность для sql иньекций//test@test@mail.com');DROP TABLE Person;-- запрос в поле емаил который убивает таблицу
             Statement statement=connection.createStatement();
             String SQL = "INSERT INTO Person VALUES(" + 1 + ",'" + person.getName() +"'," + person.getAge() + ",'" + person.getEmail() + "')";
             //INSERT INTO Person VALUES(1,'Tom',18,'tom@mail.com')
             //запрос на изменение в БД
-            statement.executeUpdate(SQL);*/
+            statement.executeUpdate(SQL);*//*
             //PreparedStatement лучше быстрее безопаснее
             PreparedStatement preparedStatement=connection.prepareStatement("INSERT INTO Person(name,age,email) VALUES(?,?,?)");
 
@@ -106,11 +109,11 @@ public class PersonDAO implements DAO {
         }
     }
 
-    /**
+    *//**
      * метод обновляет поле "name" в одном из обьектов списка "people"
      * @param id обьекта чьи данные нужно обновить
      * @param upPerson обьект из которого нужно взять новые данные для обьекта из списка
-     */
+     *//*
     @Override
     public void update(int id, Person upPerson) {
         try {
@@ -129,10 +132,10 @@ public class PersonDAO implements DAO {
 
     }
 
-    /**
+    *//**
      * метод удалит обьект из списка
      * @param id обьекта на удаление
-     */
+     *//*
     @Override
     public void delete(int id) {
         try {
@@ -145,4 +148,4 @@ public class PersonDAO implements DAO {
             throw new RuntimeException(e);
         }
     }
-}
+}*/

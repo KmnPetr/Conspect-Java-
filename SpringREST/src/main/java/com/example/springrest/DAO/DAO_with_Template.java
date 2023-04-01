@@ -76,10 +76,11 @@ public class DAO_with_Template extends JdbcDaoSupport implements DAO{
      */
     @Override
     public void save(Person person) {
-        getJdbcTemplate().update("INSERT INTO Person(name,age,email) VALUES(?,?,?)",
+        getJdbcTemplate().update("INSERT INTO Person(name,age,email,address) VALUES(?,?,?,?)",
                 person.getName(),
                 person.getAge(),
-                person.getEmail());
+                person.getEmail(),
+                person.getAddress());
         //в качестве последнего аргумента update() принимает @Nullable Object... args что указывает на любое количество аргументов кот.будут приняты как массив
     }
 
@@ -90,10 +91,11 @@ public class DAO_with_Template extends JdbcDaoSupport implements DAO{
      */
     @Override
     public void update(int id, Person upPerson) {
-        getJdbcTemplate().update("UPDATE Person SET name=?,age=?,email=? WHERE id=?",
+        getJdbcTemplate().update("UPDATE Person SET name=?,age=?,email=?,address=? WHERE id=?",
                 upPerson.getName(),
                 upPerson.getAge(),
                 upPerson.getEmail(),
+                upPerson.getAddress(),
                 id);//в отличии от метода query(), id передается не new Object[]{id} а просто id
     }
 
@@ -120,10 +122,11 @@ public class DAO_with_Template extends JdbcDaoSupport implements DAO{
         long before=System.currentTimeMillis();
 
         for(Person person:people){
-            getJdbcTemplate().update("INSERT INTO Person(name,age,email) VALUES (?,?,?)",
+            getJdbcTemplate().update("INSERT INTO Person(name,age,email,address) VALUES (?,?,?,?)",
                     person.getName(),
                     person.getAge(),
-                    person.getEmail());
+                    person.getEmail(),
+                    person.getAddress());
         }
 
         long after=System.currentTimeMillis();
@@ -138,13 +141,14 @@ public class DAO_with_Template extends JdbcDaoSupport implements DAO{
         long before=System.currentTimeMillis();
 
         //далее метод batchUpdate создает пакет с 1000 запросами и отправляет в БД
-        getJdbcTemplate().batchUpdate("INSERT INTO Person(name,age,email) VALUES (?,?,?)",
+        getJdbcTemplate().batchUpdate("INSERT INTO Person(name,age,email,address) VALUES (?,?,?,?)",
                 new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
                 ps.setString(1,people.get(i).getName());
                 ps.setInt(2,people.get(i).getAge());
                 ps.setString(3,people.get(i).getEmail());
+                ps.setString(4,people.get(i).getAddress());
             }
             @Override
             public int getBatchSize() {
@@ -162,7 +166,11 @@ public class DAO_with_Template extends JdbcDaoSupport implements DAO{
     private List<Person> create1000People() {
         List<Person>people=new ArrayList<>();
         for (int i = 1000; i < 2000; i++) {
-            people.add(new Person("Person"+i,30,"Person"+i+"@gmail.com"));
+            people.add(new Person(0,
+                    "Person"+i,
+                    30,
+                    "Person"+i+"@gmail.com",
+                    "Country, City, 123456"));
         }
         return people;
     }

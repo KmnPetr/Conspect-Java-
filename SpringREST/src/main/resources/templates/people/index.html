@@ -6,6 +6,12 @@
 </head>
 <body>
 
+<br/><!--создаст пустую строку-->
+<hr/><!--горизонтальная линия-->
+<a href="/people/new">Create new person</a>
+<br/><!--создаст пустую строку-->
+<hr/><!--горизонтальная линия-->
+
 <div th:each="person : ${people}">
     <a th:href="@{/people/{id}(id=${person.getId()})}"
        th:text="${person.getName()+', '+person.getAge()}">user</a>
@@ -13,7 +19,7 @@
 
 <br/><!--создаст пустую строку-->
 <hr/><!--горизонтальная линия-->
+<br/><!--создаст пустую строку-->
 
-<a href="/people/new">Create new person</a>
 </body>
 </html>
