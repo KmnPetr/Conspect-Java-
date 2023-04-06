@@ -38,27 +38,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ],
-    "RunConfigurationTargetLRU": [
-      "79a0de71-5927-48ea-b372-81153ba26e89"
+    &quot;RunConfigurationTargetLRU&quot;: [
+      &quot;79a0de71-5927-48ea-b372-81153ba26e89&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn clean" />
@@ -78,6 +78,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="createtable.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/src/main/resources/createtable.sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="79a0de71-5927-48ea-b372-81153ba26e89" />
+      <method v="2" />
+    </configuration>
     <configuration name="insert.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
       <script-file value="$PROJECT_DIR$/src/main/resources/insert.sql" />
       <script-mode>FILE</script-mode>
@@ -88,6 +94,7 @@
       <list>
         <item itemvalue="Application.App" />
         <item itemvalue="Database Script.insert.sql" />
+        <item itemvalue="Database Script.createtable.sql" />
       </list>
     </recent_temporary>
   </component>
@@ -104,6 +111,7 @@
       <workItem from="1680571706889" duration="4651000" />
       <workItem from="1680576605382" duration="230000" />
       <workItem from="1680657072853" duration="3218000" />
+      <workItem from="1680742630176" duration="6995000" />
     </task>
     <servers />
   </component>

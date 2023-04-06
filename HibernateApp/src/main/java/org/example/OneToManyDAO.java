@@ -8,25 +8,22 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args ) {
+public class OneToManyDAO {
+    private Configuration configuration;
+    private SessionFactory sessionFactory;
+    private Session session;
 
-        Configuration configuration=new Configuration()
+    public OneToManyDAO() {
+        //фууу как некрасиво
+        this.configuration=new Configuration()
                 .addAnnotatedClass(Person.class)
                 .addAnnotatedClass(Item.class);
 
-        SessionFactory sessionFactory=configuration.buildSessionFactory();
-        Session session=sessionFactory.getCurrentSession();
+        this.sessionFactory=configuration.buildSessionFactory();
+        this.session=sessionFactory.getCurrentSession();
+    }
 
-//        OneToManyDAO dao=new OneToManyDAO();
-//
-//        dao.getItemForPersonId();
-
+    public void getItemForPersonId(){
         try {
             session.beginTransaction();
 
@@ -36,10 +33,8 @@ public class App
             System.out.println(items);
 
             session.getTransaction().commit();
-
         }finally {
             sessionFactory.close();
-
         }
     }
 }
