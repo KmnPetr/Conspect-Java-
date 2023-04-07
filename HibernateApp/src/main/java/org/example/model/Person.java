@@ -17,7 +17,7 @@ public class Person {
     private String name;
     @Column(name = "age")
     private int age;
-    @OneToMany(mappedBy = "ovner")
+    @OneToMany(mappedBy = "owner")
     List<Item> items;//еще геттеры и сеттеры
 
     public Person() {}
@@ -43,4 +43,8 @@ public class Person {
 
     public void setItems(List<Item> items) {this.items = items;}
 
+    @Override
+    public String toString() {
+        return "Person: "+"id=" + id + ", name='" + name +'\'' +", age=" + age;
+    }
 }

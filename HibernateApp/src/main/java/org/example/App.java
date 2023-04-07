@@ -8,24 +8,17 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static void main( String[] args ) {
 
-        Configuration configuration=new Configuration()
+        //здесь находится образец настройки подключения hibernate к БД
+        /*Configuration configuration=new Configuration()
                 .addAnnotatedClass(Person.class)
                 .addAnnotatedClass(Item.class);
 
         SessionFactory sessionFactory=configuration.buildSessionFactory();
         Session session=sessionFactory.getCurrentSession();
-
-//        OneToManyDAO dao=new OneToManyDAO();
-//
-//        dao.getItemForPersonId();
 
         try {
             session.beginTransaction();
@@ -40,6 +33,15 @@ public class App
         }finally {
             sessionFactory.close();
 
-        }
+        }*/
+
+        OneToManyDAO dao=new OneToManyDAO();
+//        dao.getAllItemOfPersonId_3();
+//        dao.getPersonOfItemId_5();
+//        dao.makeAnOrderForPersonId_2();
+//        dao.createPersonWithOneItem();
+//        dao.deleteAllItemsOfPesonId_3();
+//        dao.deletePerson2_withCascade();
+//        dao.chengeOwnerOfTheItem();
     }
 }

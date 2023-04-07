@@ -16,12 +16,12 @@ public class Item {
     private String item_name;
     @ManyToOne
     @JoinColumn(name = "person_id",referencedColumnName = "id")
-    private Person ovner;//создадим еще геттеры и сеттеры
+    private Person owner;//создадим еще геттеры и сеттеры
 
     public Item() {}
-    public Item(int person_id, String item_name) {
-        this.person_id = person_id;
+    public Item(String item_name,Person owner) {
         this.item_name = item_name;
+        this.owner=owner;
     }
 
 
@@ -32,15 +32,15 @@ public class Item {
 
     public int getPerson_id() {return person_id;}
 
-    public void setPerson_id(int person_id) {this.person_id = person_id;}
+    public void setPerson_id(Integer person_id) {this.person_id = person_id;}
 
     public String getItem_name() {return item_name;}
 
     public void setItem_name(String item_name) {this.item_name = item_name;}
 
-    public Person getOvner() {return ovner;}
+    public Person getOwner() {return owner;}
 
-    public void setOvner(Person ovner) {this.ovner = ovner;}
+    public void setOwner(Person owner) {this.owner = owner;}
 
     @Override
     public String toString() {
