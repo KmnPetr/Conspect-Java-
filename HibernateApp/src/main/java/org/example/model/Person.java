@@ -3,7 +3,10 @@ package org.example.model;
 
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -17,7 +20,10 @@ public class Person {
     private String name;
     @Column(name = "age")
     private int age;
-    @OneToMany(mappedBy = "owner")
+    @OneToOne(mappedBy = "person")
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
+    private Passport passport;
+    @OneToMany(mappedBy = "owner",cascade = CascadeType.PERSIST/*сохранит связанные товары*/)
     List<Item> items;//еще геттеры и сеттеры
 
     public Person() {}
@@ -47,4 +53,12 @@ public class Person {
     public String toString() {
         return "Person: "+"id=" + id + ", name='" + name +'\'' +", age=" + age;
     }
+
+    public void addItem(Item item){
+        if(items ==null)items=new ArrayList<>(Collections.singletonList(item));
+        else items.add(item);}
+
+    public Passport getPassport() {return passport;}
+
+    public void setPassport(Passport passport) {this.passport = passport;}
 }

@@ -35,7 +35,7 @@ public class App
 
         }*/
 
-        OneToManyDAO dao=new OneToManyDAO();
+//        OneToManyDAO dao=new OneToManyDAO();
 //        dao.getAllItemOfPersonId_3();
 //        dao.getPersonOfItemId_5();
 //        dao.makeAnOrderForPersonId_2();
@@ -43,5 +43,10 @@ public class App
 //        dao.deleteAllItemsOfPesonId_3();
 //        dao.deletePerson2_withCascade();
 //        dao.chengeOwnerOfTheItem();
+//        dao.hibernateCascade();
+
+        OneToOneDAO dao1=new OneToOneDAO();
+        dao1.createPersonWithPassport();
+//        dao1.checkCascade();
     }
 }

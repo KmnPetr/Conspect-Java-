@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.model.Item;
+import org.example.model.Passport;
 import org.example.model.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,7 +20,8 @@ public class OneToManyDAO {
         //фууу как некрасиво
         this.configuration=new Configuration()
                 .addAnnotatedClass(Person.class)
-                .addAnnotatedClass(Item.class);
+                .addAnnotatedClass(Item.class)
+                .addAnnotatedClass(Passport.class);
 
         this.sessionFactory=configuration.buildSessionFactory();
         this.session=sessionFactory.getCurrentSession();
@@ -146,6 +148,24 @@ public class OneToManyDAO {
             item.setOwner(person);
             person.getItems().add(item);//для обратной связи с кешем
 
+            session.getTransaction().commit();
+        }finally {
+            sessionFactory.close();
+        }
+    }
+
+    /**
+     * настройка каскадирования в hibernate
+     */
+    public void hibernateCascade(){
+        try {
+            session.beginTransaction();
+
+            Person person=new Person("Test cascadinggggggggggg",30);
+            person.addItem(new Item("Test cascading item 1"));
+            person.addItem(new Item("Test cascading item 2"));
+            person.addItem(new Item("Test cascading item 3"));
+            session.persist(person);//при настроенном каскадировании hibernate сам добавит и остальные сущности
             session.getTransaction().commit();
         }finally {
             sessionFactory.close();
