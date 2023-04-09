@@ -45,8 +45,13 @@ public class App
 //        dao.chengeOwnerOfTheItem();
 //        dao.hibernateCascade();
 
-        OneToOneDAO dao1=new OneToOneDAO();
-        dao1.createPersonWithPassport();
+//        OneToOneDAO dao1=new OneToOneDAO();
+//        dao1.createPersonWithPassport();
 //        dao1.checkCascade();
+        ManyToManyDAO dao=new ManyToManyDAO();
+//        dao.pushMovieAndActors();
+//        dao.getMovieWithActors();
+//        dao.pushMovieWithOldActors();
+//        dao.deleteActorInMovie();
     }
 }
