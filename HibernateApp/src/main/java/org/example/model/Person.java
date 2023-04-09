@@ -26,6 +26,8 @@ public class Person {
     @OneToMany(mappedBy = "owner",cascade = CascadeType.PERSIST/*сохранит связанные товары*/)
     List<Item> items;//еще геттеры и сеттеры
 
+
+
     public Person() {}
 
     public Person(String name, int age) {
