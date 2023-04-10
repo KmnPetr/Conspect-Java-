@@ -1,29 +1,39 @@
 package com.example.springrest.model;
 
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+@Entity
+@Table(name = "Person")
 public class Person {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotEmpty(message = "Name should not empty")
     @Size(min = 2,max = 30,message = "Name should be betveen 2 and 30 characters")
+    @Column(name = "name")
     private String name;
 
     @Min(value = 1,message = "Age should be greated than 1")
+    @Column(name = "age")
     private int age;
 
     @NotEmpty(message = "Email should not empty")
     @Email(message = "Email should be valid")
+    @Column(name = "email")
     private String email;
 
     @NotEmpty(message = "Address should not empty")
     @Pattern(regexp = "[A-Z]\\w+, [A-Z]\\w+, \\d{6}",message = "You address should be this format: Country, City, Postal code(6 digits)")//Страна, Город, Индекс(6 цифр)
+    @Column(name = "address")
     private String address;
 
     public Person() {}
 
-    public Person(int id,String name, int age, String email, String address) {
+    public Person(String name, int age, String email, String address) {
         this.id=id;
         this.name = name;
         this.age = age;

@@ -185,7 +185,7 @@ public class DAO_with_Template extends JdbcDaoSupport implements DAO{
     private List<Person> create1000People() {
         List<Person>people=new ArrayList<>();
         for (int i = 1000; i < 2000; i++) {
-            people.add(new Person(0,
+            people.add(new Person(
                     "Person"+i,
                     30,
                     "Person"+i+"@gmail.com",
@@ -195,3 +195,22 @@ public class DAO_with_Template extends JdbcDaoSupport implements DAO{
     }
 }
 
+/**
+ * Этот RowMapper довольно тривиален,т.к. названия столбцов в таблице и полей в классе Person совпадают
+ * то этот RowMapper может заменить new BeanPropertyRowMapper<>(Person.class)
+ */
+class PersonMapper implements RowMapper<Person> {
+
+    @Override
+    public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Person person=new Person();
+
+        person.setId(rs.getInt("id"));
+        person.setName(rs.getString("name"));
+        person.setAge(rs.getInt("age"));
+        person.setEmail(rs.getString("email"));
+        person.setAddress(rs.getString("address"));
+
+        return person;
+    }
+}
