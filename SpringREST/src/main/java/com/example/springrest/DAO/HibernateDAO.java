@@ -3,40 +3,41 @@ package com.example.springrest.DAO;
 import com.example.springrest.model.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
-@Component
+@Repository
 public class HibernateDAO implements DAO {
-    Configuration configuration;
+
     private final SessionFactory sessionFactory;
 
-
-    public HibernateDAO() {
-        //здесь говнокод
-        configuration = new Configuration()
-            .addAnnotatedClass(Person.class);
-
-        sessionFactory = configuration.buildSessionFactory();
+    @Autowired
+    public HibernateDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     //конструктор должен был выглядеть примерно так
-    /*@Autowired
-    public HibernateDAO(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }*/
 
-    @Override
-    @Transactional(readOnly = true/*типа только читаем*/)
+
+    /*@Override
+    @Transactional(readOnly = true*//*типа только читаем*//*)
     public List<Person> index() {
         Session session = sessionFactory.getCurrentSession();
         //сдесь будет hibernate код
         List<Person> people = session.createQuery("select p from Person p", Person.class)
                 .getResultList();
+        return people;
+    }*/
+    @Transactional(readOnly = true)
+    public List<Person> index() {
+        Session session = sessionFactory.getCurrentSession();
+
+        List<Person> people = session.createQuery("select p from Person p", Person.class)
+                .getResultList();
+
         return people;
     }
 
