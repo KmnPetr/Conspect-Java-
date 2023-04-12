@@ -8,12 +8,42 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import static org.example.HibernateSessionFactory.getSessionFactory;
+
 public class App 
 {
     public static void main( String[] args ) {
+        //здесь находится пример подключения hibernate к БД с помощью статических методов SessionFactory
+       /* Person person;
+        try {
+        Session session= getSessionFactory().getCurrentSession();
+
+            session.beginTransaction();
+
+            person=session.get(Person.class,3);
+            System.out.println("Получили человека");
+
+            session.getTransaction().commit();
+            System.out.println("Закрыли сессию");
+            //session.close(); вызовется сам
+        }finally {}
+        try{
+            Session session= getSessionFactory().getCurrentSession();
+            session.beginTransaction();
+
+            System.out.println("Внутри второй транзакции");
+            person=session.merge(person);//пристегнули обьект к hibernate
+            Hibernate.initialize(person.getItems());
+
+            session.getTransaction().commit();
+            System.out.println("Закрыли 2ю сессию");
+        }finally {}
+        System.out.println(person.getItems());
+
+        getSessionFactory().close();*/
 
         //здесь находится образец настройки подключения hibernate к БД
-        Configuration configuration=new Configuration()
+        /*Configuration configuration=new Configuration()
                 .addAnnotatedClass(Person.class)
                 .addAnnotatedClass(Passport.class)
                 .addAnnotatedClass(Item.class);
@@ -47,8 +77,9 @@ public class App
         }finally {
             sessionFactory.close();
         }
-        System.out.println(person.getItems());
-
+        System.out.println(person.getItems());*/
+//Здесь находятся испытания различных методов DAO с обьединением таблиц
+        {
 //        OneToManyDAO dao=new OneToManyDAO();
 //        dao.getAllItemOfPersonId_3();
 //        dao.getPersonOfItemId_5();
@@ -68,5 +99,26 @@ public class App
 //        dao.getMovieWithActors();
 //        dao.pushMovieWithOldActors();
 //        dao.deleteActorInMovie();
+        }
+    }
+}
+
+/**
+ * Здесь находятся статические методы получения SessionFactory
+ * т.к. он должен создаваться и закрываться один раз за работу приложения
+ */
+final class HibernateSessionFactory {
+    private static SessionFactory sessionFactory=buildSessionFactory();
+    private static SessionFactory buildSessionFactory(){
+        Configuration configuration = new Configuration()
+                .addAnnotatedClass(Person.class)
+                .addAnnotatedClass(Passport.class)
+                .addAnnotatedClass(Item.class);
+
+        sessionFactory = configuration.buildSessionFactory();
+        return sessionFactory;
+    }
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
 }

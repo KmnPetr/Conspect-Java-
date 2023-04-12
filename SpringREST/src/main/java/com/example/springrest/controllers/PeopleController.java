@@ -1,7 +1,6 @@
 package com.example.springrest.controllers;
 
 import com.example.springrest.DAO.DAO;
-import com.example.springrest.DAO.HibernateDAO;
 import com.example.springrest.model.Person;
 import com.example.springrest.util.PersonValidator;
 import jakarta.validation.Valid;
@@ -22,7 +21,7 @@ public class PeopleController {
     private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(@Qualifier("hibernateDAO")DAO DAO, PersonValidator personValidator) {
+    public PeopleController(@Qualifier("DAO_with_Template") DAO DAO, PersonValidator personValidator) {
         this.DAO = DAO;
         this.personValidator = personValidator;
     }
