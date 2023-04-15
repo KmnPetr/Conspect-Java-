@@ -2,6 +2,7 @@ package com.example.springrest.controllers;
 
 import com.example.springrest.DAO.DAO;
 import com.example.springrest.model.Person;
+import com.example.springrest.services.PeopleService;
 import com.example.springrest.util.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/people")
 public class PeopleController {
 
+    private final PeopleService peopleService;
     private final DAO DAO;
     private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(@Qualifier("DAO_with_Template") DAO DAO, PersonValidator personValidator) {
+    public PeopleController(PeopleService peopleService,
+                            @Qualifier(/*"DAO_with_Template"*/"hibernateDAO") DAO DAO,
+                            PersonValidator personValidator) {
+        this.peopleService = peopleService;
         this.DAO = DAO;
         this.personValidator = personValidator;
     }
@@ -29,7 +34,7 @@ public class PeopleController {
     @GetMapping()
     public String index(Model model){
         //передаст всех people из ДАО на view
-        model.addAttribute("people", DAO.index());
+        model.addAttribute("people",DAO.index()/*peopleService.findAll()*/);
         return "people/index";
     }
 
