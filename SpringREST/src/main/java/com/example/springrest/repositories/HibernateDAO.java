@@ -4,16 +4,14 @@ import com.example.springrest.DAO.DAO;
 import com.example.springrest.model.Person;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
-@Repository
+//ЗДЕСЬ ЕСТЬ ОШИБКИ
+@Service
 public class HibernateDAO implements DAO {
 
     private final EntityManagerFactory entityManagerFactory;
@@ -28,13 +26,11 @@ public class HibernateDAO implements DAO {
      * @return
      */
     @Override
-    @Transactional
     public List<Person> index() {
         EntityManager entityManager=entityManagerFactory.createEntityManager();
         List<Person> people=entityManager
                 .createQuery("select p from Person p", Person.class)
                 .getResultList();
-        System.out.println("отработал метод index класса HibernateDAO");
         return people;
     }
 
@@ -46,7 +42,6 @@ public class HibernateDAO implements DAO {
     @Override
     public Person show(int id) {
         EntityManager entityManager=entityManagerFactory.createEntityManager();
-        System.out.println("отработал метод show класса HibernateDAO");
         return entityManager.find(Person.class,id);
     }
 
@@ -55,18 +50,46 @@ public class HibernateDAO implements DAO {
      * @param person
      */
     @Override
-    @Transactional
     public void save(Person person) {
+        EntityManager entityManager=entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(person);
+        entityManager.getTransaction().commit();
     }
+
+    /**
+     * обновляет Person по id
+     * могут быть ошибки
+     * @param id
+     * @param upPerson
+     */
     @Override
     public void update(int id, Person upPerson) {
+        EntityManager entityManager=entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
 
+        upPerson.setId(id);
+        entityManager.merge(upPerson);
+
+        entityManager.getTransaction().commit();
     }
+
+    /**
+     * удалит Person по id
+     * @param id
+     */
     @Override
     public void delete(int id) {
+        EntityManager entityManager=entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        entityManager.remove(entityManager.find(Person.class,id));
+
+        entityManager.getTransaction().commit();
+        //многократное применение этого метода привили к перегрузке сервера я ничего не понимаю
     }
     @Override
     public void addAdmin(Person person) {
-
+        //реализация сложновата и она есть в DAO_with_Template
     }
 }
