@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +42,10 @@ public class PeopleService {
      * @param person
      */
     @Transactional//кроме чтения разрешит запись
-    public void save(Person person){peopleRepository.save(person);}
+    public void save(Person person){
+        person.setCreatedAt(new Date()/*уже хранит текущее время*/);
+        peopleRepository.save(person);
+    }
 
     /**
      * обновит данные человека по id

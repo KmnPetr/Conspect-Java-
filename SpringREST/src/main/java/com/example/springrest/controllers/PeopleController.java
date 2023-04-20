@@ -63,7 +63,7 @@ public class PeopleController {
         if (bindingResult.hasErrors()){
             return "people/new"; //если поступивший обьект имеет невалидные поля,то возвращаем пользователю форму заново переписывать
         }
-        DAO.save(person);
+        peopleService.save(person);
         return "redirect:/people";
     }
 
