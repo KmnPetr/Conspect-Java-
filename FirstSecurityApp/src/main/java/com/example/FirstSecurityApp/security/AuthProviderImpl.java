@@ -12,6 +12,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 
+/**
+ * пока не будем использовать этот класс
+ * пока у нас не появится много серверов и аутентификация не будет происходить на удаленном сервере
+ * а так здесь тривиальная логика спринг ее сам реализует
+ */
 @Component
 public class AuthProviderImpl implements AuthenticationProvider {
     private final PersonDetailsService personDetailsService;
