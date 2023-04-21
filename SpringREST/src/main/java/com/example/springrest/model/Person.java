@@ -6,6 +6,8 @@ import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 @Entity
 @Table(name = "Person")
@@ -44,6 +46,13 @@ public class Person {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
+//    @Enumerated(EnumType.ORDINAL/*по умолч. просто нумерует, плох если поменять местами названия в энаме*/)
+    @Enumerated(EnumType.STRING)
+    private Mood mood;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Item>items;//поставь сеттеры и геттеры
+
     public Person() {}
 
     public Person(String name, int age, String email, String address) {
@@ -67,4 +76,8 @@ public class Person {
     public void setDateOfBirth(Date dateOfBirth) {this.dateOfBirth = dateOfBirth;}
     public Date getCreatedAt() {return createdAt;}
     public void setCreatedAt(Date createdAt) {this.createdAt = createdAt;}
+    public Mood getMood() {return mood;}
+    public void setMood(Mood mood) {this.mood = mood;}
+    public List<Item> getItems() {return items;}
+    public void setItems(List<Item> items) {this.items = items;}
 }

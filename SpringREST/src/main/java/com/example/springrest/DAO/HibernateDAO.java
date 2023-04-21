@@ -1,9 +1,10 @@
 package com.example.springrest.DAO;
 
-import com.example.springrest.DAO.DAO;
+import com.example.springrest.model.Item;
 import com.example.springrest.model.Person;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,9 +34,7 @@ public class HibernateDAO implements DAO {
      * @return
      */
     @Override
-    public Person show(int id) {
-        return entityManager.find(Person.class,id);
-    }
+    public Person show(int id) {return entityManager.find(Person.class,id);}
 
     /**
      * сохранит в БД нового Person
@@ -71,5 +70,22 @@ public class HibernateDAO implements DAO {
     @Override
     public void addAdmin(Person person) {
         //реализация сложновата и она есть в DAO_with_Template
+    }
+    //////////////////////////////////////////////////
+    //////////тестим проблему N+1/////////////////////
+    //////////////////////////////////////////////////
+    @Transactional(readOnly = true)
+    public void testNPlus1(){
+        //1 запрос
+        List<Person>people=entityManager.createQuery("select p from Person p", Person.class).getResultList();
+        //N запросов
+        for (Person person:people) System.out.println("Person: "+person.getName()+" has: "+person.getItems());
+    }
+    @Transactional(readOnly = true)
+    public void testNPlus1_variant2(){
+        Session session=entityManager.unwrap(Session.class);
+        List<Person>people=session.createQuery("select p from Person p LEFT JOIN FETCH p.items").getResultList();
+
+        for (Person person:people) System.out.println("Person: "+person.getName()+" has: "+person.getItems());
     }
 }

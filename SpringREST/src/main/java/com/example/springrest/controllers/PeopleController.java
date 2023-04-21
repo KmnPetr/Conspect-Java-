@@ -1,12 +1,15 @@
 package com.example.springrest.controllers;
 
 import com.example.springrest.DAO.DAO;
+import com.example.springrest.DAO.HibernateDAO;
 import com.example.springrest.model.Person;
 import com.example.springrest.services.PeopleService;
 import com.example.springrest.util.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,8 +27,8 @@ public class PeopleController {
 
     @Autowired
     public PeopleController(PeopleService peopleService,
-                            @Qualifier(/*"DAO_with_Template"*/"hibernateDAO") DAO DAO,
-                            PersonValidator personValidator) {
+                            @Qualifier("hibernateDAO")DAO DAO,
+                            PersonValidator personValidator){
         this.peopleService = peopleService;
         this.DAO = DAO;
         this.personValidator = personValidator;

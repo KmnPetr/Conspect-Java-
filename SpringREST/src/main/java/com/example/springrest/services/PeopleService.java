@@ -1,8 +1,11 @@
 package com.example.springrest.services;
 
+import com.example.springrest.model.Mood;
 import com.example.springrest.model.Person;
 import com.example.springrest.repositories.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +47,7 @@ public class PeopleService {
     @Transactional//кроме чтения разрешит запись
     public void save(Person person){
         person.setCreatedAt(new Date()/*уже хранит текущее время*/);
+        person.setMood(Mood.getRandomMood());
         peopleRepository.save(person);
     }
 
