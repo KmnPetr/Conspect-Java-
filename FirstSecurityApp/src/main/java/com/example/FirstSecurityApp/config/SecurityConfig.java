@@ -23,7 +23,6 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter устаре�
     private final PersonDetailsService personDetailsService;
     @Autowired
     public SecurityConfig(PersonDetailsService personDetailsService) {
-        System.out.println("сработал конструктор SecurityConfig");
         this.personDetailsService = personDetailsService;
     }
     //устарело, применялось при наследовании WebSecurityConfigurerAdapter
@@ -45,7 +44,8 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter устаре�
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http)throws Exception{
-        http.authorizeHttpRequests/*неуверен*/()//настройка авторизации
+        http
+                .authorizeHttpRequests/*неуверен*/()//настройка авторизации
                 .requestMatchers("/auth/login","auth/registration","/error").permitAll()//на эти 2 странички пускаем всех пользователей
                 .anyRequest().authenticated()//на все остальные запросы он должен быть аутентифицирован
                 .and()
@@ -53,8 +53,14 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter устаре�
                 .loginPage("/auth/login")//другую страничку для логина
                 .loginProcessingUrl("/process_login")//сюда прийдут данные с формы можно написать любой другой адрес,на форме он тоже обозначен
                 .defaultSuccessUrl("/hello",true)//url после успешной аутентификации
-                .failureUrl("/auth/login?error");//в случае неуспешной аутентификации url с параметром ошибки
+                .failureUrl("/auth/login?error")//в случае неуспешной аутентификации url с параметром ошибки
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/auth/login").logoutUrl("/logout")//при переходе сюда будет произведен логаут
+                .logoutSuccessUrl("/auth/login");//суда его перенаправит после логаута*/
         return http.build();
+/*This application has no explicit mapping for /error, so you are seeing this as a fallback.*/
     }
 
     //настраиваем аутентификацию
