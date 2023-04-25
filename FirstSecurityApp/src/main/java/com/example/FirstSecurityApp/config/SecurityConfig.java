@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -25,26 +26,9 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter устаре�
     public SecurityConfig(PersonDetailsService personDetailsService) {
         this.personDetailsService = personDetailsService;
     }
-    //устарело, применялось при наследовании WebSecurityConfigurerAdapter
-    /*@Override
-    protected void configure(HttpSecurity http)throws Exception{
-        //конфигурируем сам спринг секьюрити
-        //конфигурируем авторизацию
-        http.authorizeHttpRequests*//*неуверен*//*()//настройка авторизации
-                .requestMatchers("/auth/login","/error").permitAll()//на эти 2 странички пускаем всех пользователей
-                .anyRequest().authenticated()//на все остальные запросы он должен быть аутентифицирован
-                .and()
-                .formLogin()
-                .loginPage("/auth/login")//другую страничку для логина
-                .loginProcessingUrl("/process_login")//сюда прийдут данные с формы можно написать любой другой адрес,на форме он тоже обозначен
-                .defaultSuccessUrl("/hello",true)//url после успешной аутентификации
-                .failureUrl("/auth/login?error");//в случае неуспешной аутентификации url с параметром ошибки
-
-    }*/
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http)throws Exception{
-        http
+        http.csrf().disable()
                 .authorizeHttpRequests/*неуверен*/()//настройка авторизации
                 .requestMatchers("/auth/login","auth/registration","/error").permitAll()//на эти 2 странички пускаем всех пользователей
                 .anyRequest().authenticated()//на все остальные запросы он должен быть аутентифицирован
@@ -57,10 +41,11 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter устаре�
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/auth/login").logoutUrl("/logout")//при переходе сюда будет произведен логаут
-                .logoutSuccessUrl("/auth/login");//суда его перенаправит после логаута*/
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/auth/login");//суда его перенаправит после логаута
+
+
         return http.build();
-/*This application has no explicit mapping for /error, so you are seeing this as a fallback.*/
     }
 
     //настраиваем аутентификацию
