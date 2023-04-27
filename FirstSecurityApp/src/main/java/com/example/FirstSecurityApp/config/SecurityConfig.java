@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,8 +27,22 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter устаре�
     public SecurityConfig(PersonDetailsService personDetailsService) {
         this.personDetailsService = personDetailsService;
     }
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        System.out.println("запустился метод configureGlobal");
+        //        auth.authenticationProvider(authProvider);//нужен при использовании AuthProvider
+        auth.userDetailsService(personDetailsService);
+                /*.passwordEncoder(getPasswordEncoder())*/ //это взято из старой версии Spring
+
+               //ерунда сам непомню где нашел
+                /*.inMemoryAuthentication()
+                .withUser()
+                .password(getPasswordEncoder().encode("user1Pass"))
+                .authorities(*//*"ROLE_USER"*//*);*/
+    }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http)throws Exception{
+        System.out.println("Создался @Bean filterChain");
         http.csrf().disable()
                 .authorizeHttpRequests/*неуверен*/()//настройка авторизации
                 .requestMatchers("/auth/login","auth/registration","/error").permitAll()//на эти 2 странички пускаем всех пользователей
@@ -41,18 +56,18 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter устаре�
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/auth/login");//суда его перенаправит после логаута
+                .logoutSuccessUrl("/auth/login");//сюда его перенаправит после логаута
 
 
         return http.build();
     }
 
     //настраиваем аутентификацию
+    /*@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(authProvider);//нужен при использовании AuthProvider
-        auth.userDetailsService(personDetailsService);//спринг сам сравнит пароли
-    }
+        auth.userDetailsService(personDetailsService)//спринг сам сравнит пароли
+                .passwordEncoder(getPasswordEncoder());
+    }*/
 
     /**
      * укажет каким способом шифруется палоль
@@ -60,6 +75,8 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter устаре�
      */
     @Bean
     public PasswordEncoder getPasswordEncoder(){
-        return NoOpPasswordEncoder.getInstance();//никак не шифруем пока
+        System.out.println("Создался @Bean getPasswordEncoder()");
+//        return NoOpPasswordEncoder.getInstance();//никак не шифруем пока
+        return new BCryptPasswordEncoder();
     }
 }

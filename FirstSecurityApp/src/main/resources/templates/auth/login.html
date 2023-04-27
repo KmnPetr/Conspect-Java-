@@ -17,10 +17,20 @@
   <br/>
   <input type="submit" value="Login"/>
 
-  <div th:if="${param.error}" style="color: red">
-    Неправильные имя или пароль
-  </div>
+  <div th:if="${param.error}" style="color: red">Неправильные имя или пароль</div>
 </form>
+
+<br/><!--создаст пустую строку-->
+<hr/><!--горизонтальная линия-->
+<a href="/auth/registration">Registering a new user</a>
+
+<br/><!--создаст пустую строку-->
+<br/><!--создаст пустую строку-->
+<br/><!--создаст пустую строку-->
+<hr/><!--горизонтальная линия-->
+<h6>Описание:
+User(1,2,3) имеют незакодированный пароль, они аутентификацию не пройдут по тех. причинам.
+Остальные Login(test_user4,test_user5) Password(test_password)</h6>
 
 </body>
 </html>
