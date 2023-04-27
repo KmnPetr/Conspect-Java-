@@ -43,10 +43,13 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter устаре�
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http)throws Exception{
         System.out.println("Создался @Bean filterChain");
-        http.csrf().disable()
+        http
+//                .csrf().disable()//если мы не собираемся использовать веб версию
                 .authorizeHttpRequests/*неуверен*/()//настройка авторизации
+                .requestMatchers("/admin").hasRole("ADMIN")//ограничили доступ к страничке админа
+//                .requestMatchers("...").hasAuthority()//этф кроме ролей принимает еще и действия
                 .requestMatchers("/auth/login","auth/registration","/error").permitAll()//на эти 2 странички пускаем всех пользователей
-                .anyRequest().authenticated()//на все остальные запросы он должен быть аутентифицирован
+                .anyRequest().hasAnyRole("USER","ADMIN") //.authenticated()//на все остальные запросы он должен быть аутентифицирован//при ролях не нужна
                 .and()
                 .formLogin()
                 .loginPage("/auth/login")//другую страничку для логина
