@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class FirstREST_Controller {
 //    @ResponseBody//аннотация говорит что метод возвращает не форму а данные
-    @GetMapping("/sayHello")
+    @GetMapping("/hello")
     public String sayHello(){
         return "Hello World!";//любой обьект будет конвертироваться в json
     }
