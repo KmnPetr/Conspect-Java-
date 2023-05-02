@@ -8,4 +8,8 @@ INSERT INTO Person(name, age, email)
 VALUES
     ('Tom',25,'tom@mail.com'),
     ('Bob',51,'bob@mail.com'),
-    ('Katy',25,'katy@mail.com')
+    ('Katy',25,'katy@mail.com');
+
+ALTER TABLE person ADD COLUMN created_at timestamp,
+    ADD COLUMN updated_at timestamp,
+    ADD COLUMN created_who varchar/*типа кто из администраторов добавил изменения*/;
