@@ -35,12 +35,6 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter устаре�
         //        auth.authenticationProvider(authProvider);//нужен при использовании AuthProvider
         auth.userDetailsService(personDetailsService);
                 /*.passwordEncoder(getPasswordEncoder())*/ //это взято из старой версии Spring
-
-               //ерунда сам непомню где нашел
-                /*.inMemoryAuthentication()
-                .withUser()
-                .password(getPasswordEncoder().encode("user1Pass"))
-                .authorities(*//*"ROLE_USER"*//*);*/
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http)throws Exception{

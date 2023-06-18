@@ -47,6 +47,7 @@ public class AuthController {
         personValidator.validate(person,bindingResult);
         if (bindingResult.hasErrors())return "auth/registration";
 
+
         registrationServise.register(person);
         return "redirect:/auth/login";
     }
